@@ -19,6 +19,7 @@
 (function() {
     'use strict';
     const info=[
+        ["基本信息",/(基本信息)/],
         ["蛋片鸡",/(姓名)|(名字)/],
         ["18711111",/(学号)/],
         ["单选框_性别",/(性别)/,/(女)|(女生)/],
@@ -33,12 +34,13 @@
         module:".ui-field-contain",//每个问题模块
         title:".field-label",//标题
         type:{
-            
-           "input_text":".ui-input-text",
-           "radio":".ui-controlgroup",
-           "checkbox":".ui-controlgroup"
+             "table":"table",//【基本信息】
+           "input_text":".ui-input-text",//【填空题】
+           "radio":".ui-radio",//【单选题】
+           "checkbox":".ui-checkbox"//【多选题】
         }
-    };
+        };
+    
     $(document).ready(function(){
         let itemNum = 0;
         $(ini.module).each(function(){
@@ -49,12 +51,18 @@
             for(let i=0;i<info.length;i++){//匹配用户信息
                 if(info[i][1].test(title)){//匹配到一处信息,判断答题框类型,加break！
                    for(let tp in ini.type){
-                       console.log("tp: ", tp);
+                      
                        let dom=$(this).find(ini.type[tp]);
                        if(dom.length>0){
+                           console.log("tp: ", tp);
                            switch(tp){
+                                case "table":
+                                   dom.find("tr:odd").each(function(){
+                                       console.log($(this).find(".itemTitleSpan"));                                     
+                                   });                               
+                                   break;
                                case "input_text":
-                                   $("#q"+itemNum)[0].value = info[i][0]; //赋值
+                                   //$("#q"+itemNum)[0].value = info[i][0]; //赋值
                                    break;
                                case "radio":
                                case "checkbox":
