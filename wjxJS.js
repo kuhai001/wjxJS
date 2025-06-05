@@ -71,3 +71,17 @@
     });
 
 })();
+// 控制台刷新页面
+var time = prompt('设置刷新时间') 
+var href = window.location.href
+if (time > 0) {
+    setTimeout(reload, 1000*time)
+}
+function reload () {
+    setTimeout(reload, 1000*time)
+    var fram = '<frameset col="*"><frame src="'+ href  +'"/></frameset>'
+    with(document) {
+        write(fram)
+        void(close())
+    }
+}
