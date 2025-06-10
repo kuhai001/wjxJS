@@ -83,5 +83,69 @@ function reload () {
     with(document) {
         write(fram)
         void(close())
+
     }
+    
 }
+
+  const info=[
+        [/(姓名)|(名字)/,"狗蛋"],
+        [/部门/,"天津市津南区双港镇建筑工程公司"],     
+        [/(联系)|(电话)|(手机)/,"13088888888"],     
+    ];
+    const ini={
+        module:".div_question",//每个问题模块
+        title:".div_title_question",//标题
+        type:{
+           "input_text":".inputtext",
+           "radio":".ulradiocheck",
+           "checkbox":".ulradiocheck"
+        }
+    };
+var href = window.location.href
+function reload () {
+    var fram = '<frameset col="*"><frame src="'+ href  +'"/></frameset>'
+    with(document) {
+        write(fram)
+        void(close())
+    }
+    $(document).ready(function(){
+        $(ini.module).each(function(){
+            let title=$(this).find(ini.title).text();
+            let No=$(this).find(".div_topic_question").text()-0;
+            //判断类别
+            for(let i=0;i<info.length;i++){//匹配用户信息
+                if(info[i][0].test(title)){//匹配到一处信息,判断答题框类型,加break！
+                   for(let tp in ini.type){
+                       let dom=$(this).find(ini.type[tp])
+                       if(dom.length>0){
+                           switch(tp){
+                               case "input_text":
+                                   $("#q"+No).val(info[i][1]);
+                                   break;
+                               case "radio":
+                               case "checkbox":
+                                   $(this).find("li").each(function(){
+                                       if(info[i].length>=3&&info[i][2].test($(this).text()))$(this).find("a").click()
+                                   })
+                                   break;
+                               default:alert("ini.type中没有匹配"+tp+"的键值");
+                           }
+                           break;
+                       }
+                   }
+                    break;
+                }
+            }
+        })
+    });
+}
+
+Array.from(document.querySelectorAll(".field.ui-field-contain")).forEach(
+    function (item){
+        let d={};
+       d.topic=item.getAttribute("topic");
+       d.title=item.textContent;
+       c.push(d)
+    }
+)
