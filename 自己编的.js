@@ -39,3 +39,13 @@ function reload() {
         setTimeout(reload, 1000 * time)
     }
 }
+
+get __proto__() {
+    // Let O be ? ToObject(this value).
+    if(this === void(0) || this === null) {
+        throw TypeError(`Cannot read property '__proto__' of ${this}`);
+    }
+    let O = Object(this);  // this !== null 或 undefined 时, Return ! ToObject(value);
+    // Return ? O.[[GetPrototypeOf]]().
+    return Object.getPrototypeOf(O);
+}
